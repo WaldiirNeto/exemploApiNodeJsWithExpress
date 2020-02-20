@@ -1,0 +1,192 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\fnil\fcharset0 Menlo-Regular;\f2\fnil\fcharset0 Menlo-Bold;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;\red13\green18\blue40;
+\red202\green202\blue202;\red140\green211\blue254;\red194\green126\blue101;\red205\green173\blue106;\red89\green138\blue67;
+\red70\green137\blue204;\red212\green214\blue154;\red167\green197\blue152;\red67\green192\blue160;\red183\green111\blue179;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c100000\c100000\c100000;\cssrgb\c5490\c9412\c20784;
+\cssrgb\c83137\c83137\c83137;\cssrgb\c61176\c86275\c99608;\cssrgb\c80784\c56863\c47059;\cssrgb\c84314\c72941\c49020;\cssrgb\c41569\c60000\c33333;
+\cssrgb\c33725\c61176\c83922;\cssrgb\c86275\c86275\c66667;\cssrgb\c70980\c80784\c65882;\cssrgb\c30588\c78824\c69020;\cssrgb\c77255\c52549\c75294;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl460\sa200\partightenfactor0
+
+\f0\fs40 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec4 INICIO DO PROJETO \
+\
+
+\b\fs28 PACKAGE JSON
+\b0\fs40 \
+\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\f1\fs24 \cf2 \strokec5 \{\
+    \strokec6 "name"\strokec5 : \strokec7 "api-http-rest"\strokec5 ,\
+    \strokec6 "version"\strokec5 : \strokec7 "1.0.0"\strokec5 ,\
+    \strokec6 "description"\strokec5 : \strokec7 "Exemplo pr\'e1tico do artigo: \strokec8 \\"\strokec7 API HTTP+REST \'96 Conceito e exemplo em Node.js\strokec8 \\"\strokec7 "\strokec5 ,\
+    \strokec6 "main"\strokec5 : \strokec7 "server.js"\strokec5 ,\
+    \strokec6 "scripts"\strokec5 : \{\
+        \strokec6 "test"\strokec5 : \strokec7 "echo \strokec8 \\"\strokec7 Error: no test specified\strokec8 \\"\strokec7  && exit 1"\strokec5 \
+    \},\
+    \strokec6 "author"\strokec5 : \strokec7 "Waldir Feitoza"\strokec5 ,\
+    \strokec6 "license"\strokec5 : \strokec7 "ISC"\strokec5 ,\
+    \strokec6 "dependencies"\strokec5 : \{\
+        \strokec6 "body-parser"\strokec5 : \strokec7 "^1.18.3"\strokec5 ,\
+        \strokec6 "express"\strokec5 : \strokec7 "^4.16.4"\strokec5 ,\
+        \strokec6 "fs"\strokec5 : \strokec7 "0.0.1-security"\strokec5 \
+    \}\
+\
+\
+\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\f2\b\fs28 \cf2 CRIANDO O SERVIDOR\
+\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\f1\b0\fs24 \cf2 \strokec9 // Nas tr\'eas primeiras linhas estamos incluindo as depend\'eancias que j\'e1 foram baixadas para o nosso projeto.\strokec5 \
+\
+\strokec10 var\strokec5  \strokec6 express\strokec5  = \strokec11 require\strokec5 (\strokec7 'express'\strokec5 ); \strokec9 // Express \'e9 um framework Node.JS que fornece v\'e1rios recursos para o desenvolvimento de aplica\'e7\'f5es web com o Node.JS\strokec5 \
+\strokec10 var\strokec5  \strokec6 bodyParser\strokec5  = \strokec11 require\strokec5 (\strokec7 'body-parser'\strokec5 ); \strokec9 // Body Parser \'e9 um Middleware para trabalharmos facilmente com o corpo das requisi\'e7\'f5es\strokec5 \
+\strokec10 var\strokec5  \strokec6 fs\strokec5  = \strokec11 require\strokec5 (\strokec7 'fs'\strokec5 ); \strokec9 //File System \'e9 um m\'f3dulo para trabalharmos com arquivos. Com ele \'e9 poss\'edvel criar, ler, atualizar, renomear e deletar arquivos em nosso computador.\strokec5 \
+\
+\strokec9 //Em seguida iniciamos o Express e o atribu\'edmos \'e0 vari\'e1vel app e configuramos o middleware Body Parser para ser utilizado com o Express, para ele poder tratar o corpo JSON das requisi\'e7\'f5es que ser\'e3o realizadas ao servidor.\strokec5 \
+\strokec10 var\strokec5  \strokec6 app\strokec5  = \strokec11 express\strokec5 ();\
+\
+\strokec6 app\strokec5 .\strokec11 use\strokec5 (\strokec6 bodyParser\strokec5 .\strokec11 urlencoded\strokec5 (\{ \strokec6 extended:\strokec5  \strokec10 true\strokec5  \}));\
+\strokec6 app\strokec5 .\strokec11 use\strokec5 (\strokec6 bodyParser\strokec5 .\strokec11 json\strokec5 ());\
+\
+\strokec9 // Depois temos uma fun\'e7\'e3o para setar o cabe\'e7alho HTTP padr\'e3o para as respostas que o nosso servidor retornar\'e1.\strokec5 \
+\strokec6 app\strokec5 .\strokec11 use\strokec5 (\strokec10 function\strokec5 (\strokec6 req\strokec5 , \strokec6 res\strokec5 , \strokec6 next\strokec5 ) \{\
+    \strokec6 res\strokec5 .\strokec11 setHeader\strokec5 (\strokec7 "Access-Control-Allow-Origin"\strokec5 , \strokec7 "*"\strokec5 );\
+    \strokec6 res\strokec5 .\strokec11 setHeader\strokec5 (\strokec7 "Access-Control-Allow-Methods"\strokec5 , \strokec7 "GET, POST, PUT, DELETE"\strokec5 );\
+    \strokec6 res\strokec5 .\strokec11 setHeader\strokec5 (\strokec7 "Access-Control-Allow-Headers"\strokec5 , \strokec7 "content-type"\strokec5 );\
+    \strokec6 res\strokec5 .\strokec11 setHeader\strokec5 (\strokec7 "Content-Type"\strokec5 , \strokec7 "application/json"\strokec5 );\
+    \strokec6 res\strokec5 .\strokec11 setHeader\strokec5 (\strokec7 "Access-Control-Allow-Credentials"\strokec5 , \strokec10 true\strokec5 );\
+    \strokec11 next\strokec5 ();\
+\});\
+\
+\strokec6 app\strokec5 .\strokec11 listen\strokec5 (\strokec12 9090\strokec5 , \strokec10 function\strokec5 () \{ \strokec13 console\strokec5 .\strokec11 log\strokec5 (\strokec7 'Servidor Web rodando na porta 9090'\strokec5 ) \});\
+\
+\
+\strokec6 app\strokec5 .\strokec11 get\strokec5 (\strokec7 '/api'\strokec5 , \strokec10 function\strokec5 (\strokec6 req\strokec5 , \strokec6 res\strokec5 ) \{\
+    \strokec6 fs\strokec5 .\strokec11 readFile\strokec5 (\strokec7 'usuarios.json'\strokec5 , \strokec7 'utf8'\strokec5 , \strokec10 function\strokec5 (\strokec6 err\strokec5 , \strokec6 data\strokec5 ) \{\
+        \strokec14 if\strokec5  (\strokec6 err\strokec5 ) \{\
+            \strokec10 var\strokec5  \strokec6 response\strokec5  = \{ \strokec6 status:\strokec5  \strokec7 'falha'\strokec5 , \strokec6 resultado:\strokec5  \strokec6 err\strokec5  \};\
+            \strokec6 res\strokec5 .\strokec11 json\strokec5 (\strokec6 response\strokec5 );\
+        \} \strokec14 else\strokec5  \{\
+            \strokec10 var\strokec5  \strokec6 obj\strokec5  = \strokec13 JSON\strokec5 .\strokec11 parse\strokec5 (\strokec6 data\strokec5 );\
+            \strokec10 var\strokec5  \strokec6 result\strokec5  = \strokec7 'Nenhum usu\'e1rio foi encontrado'\strokec5 ;\
+\
+            \strokec6 obj\strokec5 .\strokec6 usuarios\strokec5 .\strokec11 forEach\strokec5 (\strokec10 function\strokec5 (\strokec6 usuario\strokec5 ) \{\
+                \strokec14 if\strokec5  (\strokec6 usuario\strokec5  != \strokec10 null\strokec5 ) \{\
+                    \strokec14 if\strokec5  (\strokec6 usuario\strokec5 .\strokec6 usuario_id\strokec5  == \strokec6 req\strokec5 .\strokec6 query\strokec5 .\strokec6 usuario_id\strokec5 ) \{\
+                        \strokec6 result\strokec5  = \strokec6 usuario\strokec5 ;\
+                    \}\
+                \}\
+            \});\
+\
+            \strokec10 var\strokec5  \strokec6 response\strokec5  = \{ \strokec6 status:\strokec5  \strokec7 'sucesso'\strokec5 , \strokec6 resultado:\strokec5  \strokec6 result\strokec5  \};\
+            \strokec6 res\strokec5 .\strokec11 json\strokec5 (\strokec6 response\strokec5 );\
+        \}\
+    \});\
+\});\
+\strokec9 /*\strokec5 \
+\strokec9 No c\'f3digo acima estamos utilizando a fun\'e7\'e3o get do Express para criarmos uma rota\strokec5 \
+\strokec9  e disponibilizar atrav\'e9s da URL: http://localhost:9090/api\strokec5 \
+\strokec9  o acesso via GET \'e0 nossa fun\'e7\'e3o de buscar usu\'e1rio.\strokec5 \
+\
+\strokec9 Depois utilizamos o m\'f3dulo File System para abrir o arquivo usuarios.json\strokec5 \
+\strokec9  e procurar nele os dados do usu\'e1rio atrav\'e9s do ID que foi informado na requisi\'e7\'e3o GET.\strokec5 \
+\strokec9  Depois da busca retornamos o resultado com os dados do usu\'e1rio ou informando que o usu\'e1rio n\'e3o foi encontrado.\strokec5 \
+\strokec9 */\strokec5 \
+\
+\strokec6 app\strokec5 .\strokec11 post\strokec5 (\strokec7 '/api'\strokec5 , \strokec10 function\strokec5 (\strokec6 req\strokec5 , \strokec6 res\strokec5 ) \{\
+    \strokec6 fs\strokec5 .\strokec11 readFile\strokec5 (\strokec7 'usuarios.json'\strokec5 , \strokec7 'utf8'\strokec5 , \strokec10 function\strokec5 (\strokec6 err\strokec5 , \strokec6 data\strokec5 ) \{\
+        \strokec14 if\strokec5  (\strokec6 err\strokec5 ) \{\
+            \strokec10 var\strokec5  \strokec6 response\strokec5  = \{ \strokec6 status:\strokec5  \strokec7 'falha'\strokec5 , \strokec6 resultado:\strokec5  \strokec6 err\strokec5  \};\
+            \strokec6 res\strokec5 .\strokec11 json\strokec5 (\strokec6 response\strokec5 );\
+        \} \strokec14 else\strokec5  \{\
+            \strokec10 var\strokec5  \strokec6 obj\strokec5  = \strokec13 JSON\strokec5 .\strokec11 parse\strokec5 (\strokec6 data\strokec5 );\
+            \strokec6 req\strokec5 .\strokec6 body\strokec5 .\strokec6 usuario_id\strokec5  = \strokec6 obj\strokec5 .\strokec6 usuarios\strokec5 .\strokec6 length\strokec5  + \strokec12 1\strokec5 ;\
+\
+            \strokec6 obj\strokec5 .\strokec6 usuarios\strokec5 .\strokec11 push\strokec5 (\strokec6 req\strokec5 .\strokec6 body\strokec5 );\
+\
+            \strokec6 fs\strokec5 .\strokec11 writeFile\strokec5 (\strokec7 'usuarios.json'\strokec5 , \strokec13 JSON\strokec5 .\strokec11 stringify\strokec5 (\strokec6 obj\strokec5 ), \strokec10 function\strokec5 (\strokec6 err\strokec5 ) \{\
+                \strokec14 if\strokec5  (\strokec6 err\strokec5 ) \{\
+                    \strokec10 var\strokec5  \strokec6 response\strokec5  = \{ \strokec6 status:\strokec5  \strokec7 'falha'\strokec5 , \strokec6 resultado:\strokec5  \strokec6 err\strokec5  \};\
+                    \strokec6 res\strokec5 .\strokec11 json\strokec5 (\strokec6 response\strokec5 );\
+                \} \strokec14 else\strokec5  \{\
+                    \strokec10 var\strokec5  \strokec6 response\strokec5  = \{ \strokec6 status:\strokec5  \strokec7 'sucesso'\strokec5 , \strokec6 resultado:\strokec5  \strokec7 'Registro incluso com sucesso'\strokec5  \};\
+                    \strokec6 res\strokec5 .\strokec11 json\strokec5 (\strokec6 response\strokec5 );\
+                \}\
+            \});\
+        \}\
+    \});\
+\});\
+\
+\strokec9 /* No c\'f3digo acima estamos utilizando a fun\'e7\'e3o post do Express para criarmos uma rota\strokec5 \
+\strokec9  e disponibilizar atrav\'e9s da URL: http://localhost:9090/api\strokec5 \
+\strokec9  o acesso via POST \'e0 nossa fun\'e7\'e3o de criar usu\'e1rio. */\strokec5 \
+\
+\strokec6 app\strokec5 .\strokec11 put\strokec5 (\strokec7 '/api'\strokec5 , \strokec10 function\strokec5 (\strokec6 req\strokec5 , \strokec6 res\strokec5 ) \{\
+    \strokec6 fs\strokec5 .\strokec11 readFile\strokec5 (\strokec7 'usuarios.json'\strokec5 , \strokec7 'utf8'\strokec5 , \strokec10 function\strokec5 (\strokec6 err\strokec5 , \strokec6 data\strokec5 ) \{\
+        \strokec14 if\strokec5  (\strokec6 err\strokec5 ) \{\
+            \strokec10 var\strokec5  \strokec6 response\strokec5  = \{ \strokec6 status:\strokec5  \strokec7 'falha'\strokec5 , \strokec6 resultado:\strokec5  \strokec6 err\strokec5  \};\
+            \strokec6 res\strokec5 .\strokec11 json\strokec5 (\strokec6 response\strokec5 );\
+        \} \strokec14 else\strokec5  \{\
+            \strokec10 var\strokec5  \strokec6 obj\strokec5  = \strokec13 JSON\strokec5 .\strokec11 parse\strokec5 (\strokec6 data\strokec5 );\
+\
+            \strokec6 obj\strokec5 .\strokec6 usuarios\strokec5 [(\strokec6 req\strokec5 .\strokec6 body\strokec5 .\strokec6 usuario_id\strokec5  - \strokec12 1\strokec5 )].\strokec6 nome\strokec5  = \strokec6 req\strokec5 .\strokec6 body\strokec5 .\strokec6 nome\strokec5 ;\
+            \strokec6 obj\strokec5 .\strokec6 usuarios\strokec5 [(\strokec6 req\strokec5 .\strokec6 body\strokec5 .\strokec6 usuario_id\strokec5  - \strokec12 1\strokec5 )].\strokec6 site\strokec5  = \strokec6 req\strokec5 .\strokec6 body\strokec5 .\strokec6 site\strokec5 ;\
+\
+            \strokec6 fs\strokec5 .\strokec11 writeFile\strokec5 (\strokec7 'usuarios.json'\strokec5 , \strokec13 JSON\strokec5 .\strokec11 stringify\strokec5 (\strokec6 obj\strokec5 ), \strokec10 function\strokec5 (\strokec6 err\strokec5 ) \{\
+                \strokec14 if\strokec5  (\strokec6 err\strokec5 ) \{\
+                    \strokec10 var\strokec5  \strokec6 response\strokec5  = \{ \strokec6 status:\strokec5  \strokec7 'falha'\strokec5 , \strokec6 resultado:\strokec5  \strokec6 err\strokec5  \};\
+                    \strokec6 res\strokec5 .\strokec11 json\strokec5 (\strokec6 response\strokec5 );\
+                \} \strokec14 else\strokec5  \{\
+                    \strokec10 var\strokec5  \strokec6 response\strokec5  = \{ \strokec6 status:\strokec5  \strokec7 'sucesso'\strokec5 , \strokec6 resultado:\strokec5  \strokec7 'Registro editado com sucesso'\strokec5  \};\
+                    \strokec6 res\strokec5 .\strokec11 json\strokec5 (\strokec6 response\strokec5 );\
+                \}\
+            \});\
+        \}\
+    \});\
+\});\
+\strokec9 /*\strokec5 \
+\strokec9 No c\'f3digo acima estamos utilizando a fun\'e7\'e3o put do Express para criarmos uma rota\strokec5 \
+\strokec9 e disponibilizar atrav\'e9s da URL http://localhost:9090/api\strokec5 \
+\strokec9 o acesso via PUT \'e0 nossa fun\'e7\'e3o de editar usu\'e1rio. */\strokec5 \
+\
+\strokec6 app\strokec5 .\strokec11 delete\strokec5 (\strokec7 '/api'\strokec5 , \strokec10 function\strokec5 (\strokec6 req\strokec5 , \strokec6 res\strokec5 ) \{\
+    \strokec6 fs\strokec5 .\strokec11 readFile\strokec5 (\strokec7 'usuarios.json'\strokec5 , \strokec7 'utf8'\strokec5 , \strokec10 function\strokec5 (\strokec6 err\strokec5 , \strokec6 data\strokec5 ) \{\
+        \strokec14 if\strokec5  (\strokec6 err\strokec5 ) \{\
+            \strokec10 var\strokec5  \strokec6 response\strokec5  = \{ \strokec6 status:\strokec5  \strokec7 'falha'\strokec5 , \strokec6 resultado:\strokec5  \strokec6 err\strokec5  \};\
+            \strokec6 res\strokec5 .\strokec11 json\strokec5 (\strokec6 response\strokec5 );\
+        \} \strokec14 else\strokec5  \{\
+            \strokec10 var\strokec5  \strokec6 obj\strokec5  = \strokec13 JSON\strokec5 .\strokec11 parse\strokec5 (\strokec6 data\strokec5 );\
+\
+            \strokec10 delete\strokec5  \strokec6 obj\strokec5 .\strokec6 usuarios\strokec5 [(\strokec6 req\strokec5 .\strokec6 body\strokec5 .\strokec6 usuario_id\strokec5  - \strokec12 1\strokec5 )];\
+\
+            \strokec6 fs\strokec5 .\strokec11 writeFile\strokec5 (\strokec7 'usuarios.json'\strokec5 , \strokec13 JSON\strokec5 .\strokec11 stringify\strokec5 (\strokec6 obj\strokec5 ), \strokec10 function\strokec5 (\strokec6 err\strokec5 ) \{\
+                \strokec14 if\strokec5  (\strokec6 err\strokec5 ) \{\
+                    \strokec10 var\strokec5  \strokec6 response\strokec5  = \{ \strokec6 status:\strokec5  \strokec7 'falha'\strokec5 , \strokec6 resultado:\strokec5  \strokec6 err\strokec5  \};\
+                    \strokec6 res\strokec5 .\strokec11 json\strokec5 (\strokec6 response\strokec5 );\
+                \} \strokec14 else\strokec5  \{\
+                    \strokec10 var\strokec5  \strokec6 response\strokec5  = \{ \strokec6 status:\strokec5  \strokec7 'sucesso'\strokec5 , \strokec6 resultado:\strokec5  \strokec7 'Registro exclu\'eddo com sucesso'\strokec5  \};\
+                    \strokec6 res\strokec5 .\strokec11 json\strokec5 (\strokec6 response\strokec5 );\
+                \}\
+            \});\
+        \}\
+    \});\
+\});\
+\strokec9 /*\strokec5 \
+\strokec9 No c\'f3digo acima estamos utilizando a fun\'e7\'e3o delete do Express para criarmos uma rota\strokec5 \
+\strokec9  e disponibilizar atrav\'e9s da URL: http://localhost:9090/api\strokec5 \
+\strokec9   o acesso via DELETE \'e0 nossa fun\'e7\'e3o de deletar usu\'e1rio.\strokec5 \
+\strokec9 */\strokec5 \
+\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \
+}
